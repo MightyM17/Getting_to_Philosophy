@@ -1,4 +1,6 @@
 #https://en.wikipedia.org/wiki/Wikipedia:Getting_to_Philosophy
+#This loops more than it finds philosophy
+import re
 import requests
 from bs4 import BeautifulSoup
 import random
@@ -14,12 +16,19 @@ def wikiArticle(url):
 	linkToScrape = 0
 	#print(allLinks)
 	for link in allLinks:
+		#print(link)
+		temp = (str)(link)
+		temp = re.sub("[\(\[].*?[\)\]]", "", temp) #removes stuff in brackets but what about brackets?
+		#print(temp)
+		link=BeautifulSoup(temp, "html.parser")
 		for x in link.find_all("a"):
 			if(x['href'].find("/wiki/") == -1):
 				continue
 			if(x['href'].find("/wiki/Help") != -1):
 				continue
 			if(x['href'].find("/wiki/File") != -1):
+				continue
+			if(x['href'].find("wiktionary") != -1):
 				continue
 			#print(x)
 			linkToScrape = x
@@ -28,7 +37,7 @@ def wikiArticle(url):
 			break	
 	#wikiArticle("https://en.wikipedia.org" + linkToScrape['href'])
 	print(linkToScrape['href'])
-	if cnt < 25:
+	if cnt < 35:
 		if(linkToScrape['href'].find("/wiki/Philosophy") == -1):
 			cnt=cnt+1
 			print(cnt)
