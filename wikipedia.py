@@ -8,34 +8,13 @@ def wikiArticle(url):
 		url=url,
 	)
 	soup = BeautifulSoup(_url.content, 'html.parser')
-	allLinks = soup.find(id="bodyContent").find_all("a")
-	#random.shuffle(allLinks)
+	allLinks = soup.find(id="mw-content-text").find(class_="mw-parser-output").find_all("p")
+	#content_div = soup.find_all("p")
 	linkToScrape = 0
-
+	#print(allLinks)
 	for link in allLinks:
-		# We are only interested in other wiki articles
-		if (link['href'].find("/wiki/") == -1) :
-			continue
-		if (link['href'].find("/wiki/File") != -1): 
-			continue
-		if (link['href'].find("/wiki/Wikipedia") != -1): 
-			continue
-
-		# Use this link to scrape
-		linkToScrape = link
-		break
-	print(linkToScrape)
-	#link=(str)(soup.p.wrap(soup.new_tag("a href")))
-	#print(link)
-	#start=link.index('<a href="/wiki/')
-	#end=link.index('"') #gives last index :(
-	#res = [i for i in range(len(link)) if link.startswith('"', i)]
-	#end=int(res[1])
-	#name=link[start+15:end]
-	#print(name)
-	#name = name.replace(' ', '_')
-	#print(name)
-	#wikiArticle("https://en.wikipedia.org/wiki/" + name)
-	#wikiArticle("https://en.wikipedia.org" + linkToScrape['href']) NOT NOW
+		for x in link.find_all("a"):
+			print(x)
+	#wikiArticle("https://en.wikipedia.org" + linkToScrape['href'])
 
 wikiArticle("https://en.wikipedia.org/wiki/Linux")
