@@ -12,15 +12,13 @@ def wikiArticle(url):
 	global cnt
 	soup = BeautifulSoup(_url.content, 'html.parser')
 	allLinks = soup.find(id="mw-content-text").find(class_="mw-parser-output").find_all("p")
-	#content_div = soup.find_all("p")
 	linkToScrape = 0
-	#print(allLinks)
 	for link in allLinks:
-		#print(link)
 		temp = (str)(link)
-		temp = re.sub("[\(\[].*?[\)\]]", "", temp) #removes stuff in brackets but what about brackets?
-		#print(temp)
+		temp = Remove(temp, '(', ')') # Remove text inside brackets 
 		link=BeautifulSoup(temp, "html.parser")
+		for t in link('i'): # Remove text in italics which come first in html but actually are not the first para
+		     t.clear()
 		for x in link.find_all("a"):
 			if(x['href'].find("/wiki/") == -1):
 				continue
@@ -37,10 +35,36 @@ def wikiArticle(url):
 			break	
 	#wikiArticle("https://en.wikipedia.org" + linkToScrape['href'])
 	print(linkToScrape['href'])
-	if cnt < 35:
+	if cnt < 30:
 		if(linkToScrape['href'].find("/wiki/Philosophy") == -1):
 			cnt=cnt+1
 			print(cnt)
 			wikiArticle("https://en.wikipedia.org" + linkToScrape['href'])
+def Remove(string, c1, c2):
+	result = ''
+	# paren counts the number of brackets encountered
+	paren= 0
+	for ch in string:
 	
+		# if the character is ( then increment the paren
+		# and add ( to the resultant string.
+		if ch == c1:
+			paren =paren+ 1
+			result = result + c1
+		
+		# if the character is ) and paren is greater than 0,
+		# then increment the paren and
+		# add ) to the resultant string.
+		elif (ch == c2) and paren:
+			result = result + c2
+			paren =paren- 1
+		
+		# if the character neither ( nor then add it to
+		# resultant string.
+		elif not paren:
+			result += ch
+	return result
 wikiArticle("https://en.wikipedia.org/wiki/Special:Random")
+
+#Terminology Self loops
+#Rule_of_inference loops
