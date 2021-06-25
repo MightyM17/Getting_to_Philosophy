@@ -62,7 +62,7 @@ def Remove(string, c1, c2):
 		
 		# if the character neither ( nor then add it to
 		# resultant string.
-		elif not paren or ():
+		elif not paren:
 			result += ch
 	return result
 wikiArticle("https://en.wikipedia.org/wiki/Special:Random")
