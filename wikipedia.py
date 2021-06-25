@@ -1,15 +1,16 @@
 #https://en.wikipedia.org/wiki/Wikipedia:Getting_to_Philosophy
-#This loops more than it finds philosophy
+
 import re
 import requests
 from bs4 import BeautifulSoup
 import random
-cnt = 0
+cnt = 1
 def wikiArticle(url):
 	_url = requests.get(
 		url=url,
 	)
 	global cnt
+	print(cnt)
 	soup = BeautifulSoup(_url.content, 'html.parser')
 	allLinks = soup.find(id="mw-content-text").find(class_="mw-parser-output").find_all("p")
 	linkToScrape = 0
@@ -36,16 +37,16 @@ def wikiArticle(url):
 	#wikiArticle("https://en.wikipedia.org" + linkToScrape['href'])
 	print(linkToScrape['href'])
 	if cnt < 30:
-		if(linkToScrape['href'].find("/wiki/Philosophy") == -1):
+		if(linkToScrape['href'] != ("/wiki/Philosophy")):
 			cnt=cnt+1
-			print(cnt)
 			wikiArticle("https://en.wikipedia.org" + linkToScrape['href'])
+	else:
+		print("Could not find Philosophy in 30, do the articles loop?")
 def Remove(string, c1, c2):
 	result = ''
 	# paren counts the number of brackets encountered
 	paren= 0
 	for ch in string:
-	
 		# if the character is ( then increment the paren
 		# and add ( to the resultant string.
 		if ch == c1:
@@ -61,7 +62,7 @@ def Remove(string, c1, c2):
 		
 		# if the character neither ( nor then add it to
 		# resultant string.
-		elif not paren:
+		elif not paren or ():
 			result += ch
 	return result
 wikiArticle("https://en.wikipedia.org/wiki/Special:Random")
