@@ -37,6 +37,6 @@ There may be more loops with other articles.
 * wikipedia.py (script to automatically go to first link)
 
 ### Issues
-The script deletes everything in brackets which includes wikipedia links like `https://en.wikipedia.org/wiki/Entente_(type_of_alliance)` which becomes `https://en.wikipedia.org/wiki/Entente_()` thus breaking the script.
+~~The script deletes everything in brackets which includes wikipedia links like `https://en.wikipedia.org/wiki/Entente_(type_of_alliance)` which becomes `https://en.wikipedia.org/wiki/Entente_()` thus breaking the script.~~
 
 Pages with images/tables in side like `https://en.wikipedia.org/wiki/History_of_Asian_art` can cause issues as they are considered before main text in html.

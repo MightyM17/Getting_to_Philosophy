@@ -15,6 +15,7 @@ def wikiArticle(url):
 	allLinks = soup.find(id="mw-content-text").find(class_="mw-parser-output").find_all("p")
 	linkToScrape = 0
 	for link in allLinks:
+		link_list = link('a')
 		temp = (str)(link)
 		temp = Remove(temp, '(', ')') # Remove text inside brackets 
 		link=BeautifulSoup(temp, "html.parser")
@@ -35,11 +36,16 @@ def wikiArticle(url):
 		if linkToScrape != 0 :
 			break	
 	#wikiArticle("https://en.wikipedia.org" + linkToScrape['href'])
-	print(linkToScrape['href'])
+	linkToSend = linkToScrape['href']
+	for l in link_list:
+		if(l['href'].find(linkToScrape['href'][0:-2]) != -1):
+			linkToSend = l['href']
+	
+	print(linkToSend)
 	if cnt < 30:
 		if(linkToScrape['href'] != ("/wiki/Philosophy")):
 			cnt=cnt+1
-			wikiArticle("https://en.wikipedia.org" + linkToScrape['href'])
+			wikiArticle("https://en.wikipedia.org" + linkToSend)
 	else:
 		print("Could not find Philosophy in 30, do the articles loop?")
 def Remove(string, c1, c2):
